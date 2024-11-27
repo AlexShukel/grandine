@@ -355,7 +355,10 @@ itertools = '0.13'
 tikv-jemalloc-ctl = '0.6'
 tikv-jemallocator = '0.6'
 jwt-simple = { version = '0.12', default-features = false, features = ['pure-rust'] }
-kzg = { git = 'https://github.com/grandinetech/rust-kzg.git', branch = 'integration-raw' }
+kzg = { git = 'https://github.com/AlexShukel/rust-kzg.git', branch = 'feature/embed-grandine-into-reth', default-features = false, features = [
+    "std",
+    "rand",
+] }
 lazy_static = '1'
 libmdbx = { git = 'https://github.com/paradigmxyz/reth.git', package = 'reth-libmdbx', rev = 'c228fe15808c3acbf18dc3af1a03ef5cbdcda07a' }
 libp2p = { version = '0.53', default-features = false, features = ['metrics', 'dns', 'ecdsa', 'identify', 'macros', 'noise', 'plaintext', 'secp256k1', 'serde', 'tcp', 'tokio', 'yamux', 'quic', 'upnp'] }
@@ -397,7 +400,10 @@ regex = '1'
 replace_with = '0.1'
 reqwest = { version = '0.12', features = ['json', 'native-tls-vendored'] }
 rusqlite = { version = '0.32', features = ['bundled'] }
-rust-kzg-blst = { git = 'https://github.com/grandinetech/rust-kzg.git', branch = 'integration-raw' }
+rust-kzg-blst = { git = 'https://github.com/AlexShukel/rust-kzg.git', branch = 'feature/embed-grandine-into-reth', default-features = false, features = [
+    "std",
+    "rand",
+] }
 scrypt = '0.11'
 semver = '1'
 serde = { version = '1', features = ['derive', 'rc'] }
