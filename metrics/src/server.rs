@@ -292,28 +292,30 @@ async fn scrape_system_stats(
 }
 
 fn scrape_jemalloc_stats(metrics: &Arc<Metrics>) -> Result<()> {
-    jemalloc_ctl::epoch::advance().map_err(AnyhowError::msg)?;
+    tikv_jemalloc_ctl::epoch::advance().map_err(AnyhowError::msg)?;
 
     metrics.set_jemalloc_bytes_allocated(
-        jemalloc_ctl::stats::allocated::read().map_err(AnyhowError::msg)?,
+        tikv_jemalloc_ctl::stats::allocated::read().map_err(AnyhowError::msg)?,
     );
 
-    metrics
-        .set_jemalloc_bytes_active(jemalloc_ctl::stats::active::read().map_err(AnyhowError::msg)?);
+    metrics.set_jemalloc_bytes_active(
+        tikv_jemalloc_ctl::stats::active::read().map_err(AnyhowError::msg)?,
+    );
 
     metrics.set_jemalloc_bytes_metadata(
-        jemalloc_ctl::stats::metadata::read().map_err(AnyhowError::msg)?,
+        tikv_jemalloc_ctl::stats::metadata::read().map_err(AnyhowError::msg)?,
     );
 
     metrics.set_jemalloc_bytes_resident(
-        jemalloc_ctl::stats::resident::read().map_err(AnyhowError::msg)?,
+        tikv_jemalloc_ctl::stats::resident::read().map_err(AnyhowError::msg)?,
     );
 
-    metrics
-        .set_jemalloc_bytes_mapped(jemalloc_ctl::stats::mapped::read().map_err(AnyhowError::msg)?);
+    metrics.set_jemalloc_bytes_mapped(
+        tikv_jemalloc_ctl::stats::mapped::read().map_err(AnyhowError::msg)?,
+    );
 
     metrics.set_jemalloc_bytes_retained(
-        jemalloc_ctl::stats::retained::read().map_err(AnyhowError::msg)?,
+        tikv_jemalloc_ctl::stats::retained::read().map_err(AnyhowError::msg)?,
     );
 
     Ok(())

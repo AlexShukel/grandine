@@ -8,9 +8,9 @@ use clap::{Parser, ValueEnum};
 use eth2_cache_utils::{goerli, holesky, holesky_devnet, mainnet, medalla, withdrawal_devnet_4};
 use fork_choice_control::AdHocBenchController;
 use fork_choice_store::StoreConfig;
-use jemalloc_ctl::Result as JemallocResult;
 use log::info;
 use rand::seq::SliceRandom as _;
+use tikv_jemalloc_ctl::Result as JemallocResult;
 use types::{
     combined::{BeaconState, SignedBeaconBlock},
     config::Config as ChainConfig,
@@ -426,7 +426,7 @@ fn run<P: Preset>(
 }
 
 fn print_jemalloc_stats() -> Result<()> {
-    jemalloc_ctl::epoch::advance().map_err(Error::msg)?;
+    tikv_jemalloc_ctl::epoch::advance().map_err(Error::msg)?;
 
     info!(
         "allocated: {}, \
@@ -435,12 +435,12 @@ fn print_jemalloc_stats() -> Result<()> {
          resident: {}, \
          mapped: {}, \
          retained: {}",
-        human_readable_size(jemalloc_ctl::stats::allocated::read())?,
-        human_readable_size(jemalloc_ctl::stats::active::read())?,
-        human_readable_size(jemalloc_ctl::stats::metadata::read())?,
-        human_readable_size(jemalloc_ctl::stats::resident::read())?,
-        human_readable_size(jemalloc_ctl::stats::mapped::read())?,
-        human_readable_size(jemalloc_ctl::stats::retained::read())?,
+        human_readable_size(tikv_jemalloc_ctl::stats::allocated::read())?,
+        human_readable_size(tikv_jemalloc_ctl::stats::active::read())?,
+        human_readable_size(tikv_jemalloc_ctl::stats::metadata::read())?,
+        human_readable_size(tikv_jemalloc_ctl::stats::resident::read())?,
+        human_readable_size(tikv_jemalloc_ctl::stats::mapped::read())?,
+        human_readable_size(tikv_jemalloc_ctl::stats::retained::read())?,
     );
 
     Ok(())

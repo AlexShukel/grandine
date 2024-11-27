@@ -7,7 +7,9 @@ authors = ["Grandine <info@grandine.io>"]
 workspace = true
 
 [target.'cfg(not(target_env = "msvc"))'.dependencies]
-jemallocator = { workspace = true }
+tikv-jemallocator = { workspace = true }
 
 [features]
-jemalloc_disable_initial_exec_tls = ["jemallocator/disable_initial_exec_tls"]
+jemalloc_disable_initial_exec_tls = [
+    "tikv-jemallocator/disable_initial_exec_tls",
+]
