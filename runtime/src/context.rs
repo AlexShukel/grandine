@@ -315,8 +315,9 @@ pub enum Error {
 
 #[allow(clippy::too_many_lines)]
 pub fn run(config: GrandineConfig) -> Result<()> {
-    binary_utils::initialize_logger(module_path!(), cfg!(feature = "logger-always-write-style"))?;
-    binary_utils::initialize_rayon()?;
+    // TODO: add an option to disable these lines when compiling embedded grandine
+    // binary_utils::initialize_logger(module_path!(), cfg!(feature = "logger-always-write-style"))?;
+    // binary_utils::initialize_rayon()?;
 
     info!("starting beacon node");
     config.report();
