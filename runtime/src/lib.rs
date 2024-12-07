@@ -1,4 +1,5 @@
 pub use crate::{
+    args::{GrandineArgs, Network},
     commands::GrandineCommand,
     consts::GRANDINE_DONATION_ADDRESS,
     context::{run, Error},
@@ -12,7 +13,6 @@ pub use crate::{
     misc::{MetricsConfig, StorageConfig},
     predefined_network::PredefinedNetwork,
     validators::Validators,
-    args::GrandineArgs
 };
 
 mod args;

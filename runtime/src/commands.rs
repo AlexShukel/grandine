@@ -3,8 +3,8 @@ use std::path::PathBuf;
 use clap::Subcommand;
 use types::phase0::primitives::Slot;
 
-#[derive(Clone, Subcommand)]
-#[cfg_attr(test, derive(PartialEq, Eq, Debug))]
+#[derive(Debug, Clone, Subcommand)]
+#[cfg_attr(test, derive(PartialEq, Eq))]
 pub enum GrandineCommand {
     /// Show `beacon_fork_choice` database element sizes
     /// (example: grandine db-stats)
@@ -50,8 +50,8 @@ pub enum GrandineCommand {
     Interchange(InterchangeCommand),
 }
 
-#[derive(Clone, Subcommand)]
-#[cfg_attr(test, derive(PartialEq, Eq, Debug))]
+#[derive(Debug, Clone, Subcommand)]
+#[cfg_attr(test, derive(PartialEq, Eq))]
 pub enum InterchangeCommand {
     /// Import slashing protection interchange file
     /// (example: grandine interchange import file.json)

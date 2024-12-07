@@ -53,15 +53,24 @@ use types::{
 };
 use validator::{ValidatorApiConfig, ValidatorConfig};
 
-use crate::{config_dir::{self, CONFIG_FILE, DEPOSIT_CONTRACT_BLOCK_FILE, GENESIS_STATE_FILE, PLAIN_BOOTNODES_FILE}, default_network_config, GrandineCommand, GrandineConfig, MetricsConfig, PredefinedNetwork, StorageConfig, Validators, DEFAULT_ETH1_DB_SIZE, DEFAULT_ETH2_DB_SIZE, DEFAULT_LIBP2P_IPV4_PORT, DEFAULT_LIBP2P_IPV6_PORT, DEFAULT_LIBP2P_QUIC_IPV4_PORT, DEFAULT_LIBP2P_QUIC_IPV6_PORT, DEFAULT_METRICS_PORT, DEFAULT_REQUEST_TIMEOUT, DEFAULT_TARGET_PEERS, DEFAULT_TARGET_SUBNET_PEERS, DEFAULT_TIMEOUT, GRANDINE_DONATION_ADDRESS};
+use crate::{
+    config_dir::{
+        self, CONFIG_FILE, DEPOSIT_CONTRACT_BLOCK_FILE, GENESIS_STATE_FILE, PLAIN_BOOTNODES_FILE,
+    },
+    default_network_config, GrandineCommand, GrandineConfig, MetricsConfig, PredefinedNetwork,
+    StorageConfig, Validators, DEFAULT_ETH1_DB_SIZE, DEFAULT_ETH2_DB_SIZE,
+    DEFAULT_LIBP2P_IPV4_PORT, DEFAULT_LIBP2P_IPV6_PORT, DEFAULT_LIBP2P_QUIC_IPV4_PORT,
+    DEFAULT_LIBP2P_QUIC_IPV6_PORT, DEFAULT_METRICS_PORT, DEFAULT_REQUEST_TIMEOUT,
+    DEFAULT_TARGET_PEERS, DEFAULT_TARGET_SUBNET_PEERS, DEFAULT_TIMEOUT, GRANDINE_DONATION_ADDRESS,
+};
 
 /// Grandine Team <info@grandine.io>
 /// Fast PoS and Sharding client supporting Ethereum 2.0 networks
-#[derive(Parser)]
+#[derive(Debug, Parser, Clone)]
 #[clap(display_name = APPLICATION_NAME, verbatim_doc_comment, version = APPLICATION_VERSION)]
 pub struct GrandineArgs {
     #[clap(flatten)]
-    chain_options: ChainOptions,
+    pub chain_options: ChainOptions,
 
     #[clap(flatten)]
     beacon_node_options: BeaconNodeOptions,
@@ -94,11 +103,11 @@ pub struct GrandineArgs {
     command: Option<GrandineCommand>,
 }
 
-#[derive(Args)]
-struct ChainOptions {
+#[derive(Debug, Args, Clone)]
+pub struct ChainOptions {
     /// Name of the Eth2 network to connect to
     #[clap(long, value_enum, default_value_t = Network::default())]
-    network: Network,
+    pub network: Network,
 
     /// Load configuration from YAML_FILE
     #[clap(long, value_name = "YAML_FILE")]
@@ -161,7 +170,7 @@ struct ChainOptions {
     genesis_state_download_url: Option<Url>,
 }
 
-#[derive(Args)]
+#[derive(Debug, Args, Clone)]
 struct HttpApiOptions {
     /// HTTP API address
     #[clap(long, default_value_t = HttpApiConfig::default().address.ip())]
@@ -223,7 +232,7 @@ impl HttpApiOptions {
 
 // False positive. The `bool`s are independent.
 #[allow(clippy::struct_excessive_bools)]
-#[derive(Args)]
+#[derive(Debug, Args, Clone)]
 struct BeaconNodeOptions {
     #[clap(long, default_value_t = ValidatorConfig::default().max_empty_slots)]
     max_empty_slots: u64,
@@ -352,7 +361,7 @@ struct BeaconNodeOptions {
 
 // False positive. The `bool`s are independent.
 #[allow(clippy::struct_excessive_bools)]
-#[derive(Args)]
+#[derive(Debug, Args, Clone)]
 struct NetworkConfigOptions {
     /// Listen IPv4 address
     #[clap(long, default_value_t = Ipv4Addr::UNSPECIFIED)]
@@ -632,7 +641,7 @@ impl NetworkConfigOptions {
     }
 }
 
-#[derive(Derivative, Args)]
+#[derive(Debug, Derivative, Args, Clone)]
 #[derivative(Default)]
 struct SlasherOptions {
     /// Enable slasher
@@ -646,7 +655,7 @@ struct SlasherOptions {
     slashing_history_limit: u64,
 }
 
-#[derive(Args)]
+#[derive(Debug, Args, Clone)]
 struct ValidatorOptions {
     /// Path to a directory containing EIP-2335 keystore files
     #[clap(long, requires("keystore_password_file"))]
@@ -717,7 +726,7 @@ struct ValidatorOptions {
     slashing_protection_history_limit: u64,
 }
 
-#[derive(Args)]
+#[derive(Debug, Args, Clone)]
 struct ValidatorApiOptions {
     /// Enable validator API
     #[clap(long)]
@@ -772,8 +781,8 @@ impl From<ValidatorApiOptions> for ValidatorApiConfig {
     }
 }
 
-#[derive(Clone, Copy, Sequence, ValueEnum)]
-enum Network {
+#[derive(Debug, Clone, Copy, Sequence, ValueEnum)]
+pub enum Network {
     #[cfg(any(feature = "network-mainnet", test))]
     Mainnet,
     #[cfg(any(feature = "network-goerli", test))]
