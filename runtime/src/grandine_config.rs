@@ -108,7 +108,8 @@ impl GrandineConfig {
 
         self.storage_config.print_db_sizes();
 
-        info!("Eth1 RPC URLs: [{}]", eth1_rpc_urls.iter().format(", "));
+        let formatted_urls = eth1_rpc_urls.iter().format(", ").to_string();
+        info!("Eth1 RPC URLs: [{}]", formatted_urls);
         info!("graffiti: {graffiti:?}");
         info!("HTTP API address: {}", http_api_config.address);
 
